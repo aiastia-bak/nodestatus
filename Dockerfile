@@ -10,7 +10,7 @@ ARG BINARY_TARGETS="[\"linux-musl\"]"
 ARG USE_CHINA_MIRROR=0
 
 RUN apt-get -y update \
-  && apt-get install -y git python3 apt-transport-https ca-certificates build-essential openssl-dev \
+  && apt-get install -y git python3 apt-transport-https ca-certificates build-essential openssl \
   && ln -s /usr/bin/python3 /usr/bin/python \
   && openssl version -a \
   && npm install pnpm@7 -g \
@@ -44,8 +44,8 @@ COPY --from=0 /app/web/utils/package.json ./web/utils/
 ENV IS_DOCKER=true
 ENV NODE_ENV=production
 ARG USE_CHINA_MIRROR=0
-RUN apk add --no-cache --virtual .build-deps git make gcc g++ python3 openssl \
-  && npm install pm2 pnpm@6 prisma -g \
+RUN apk add --no-cache --virtual .build-deps git make gcc g++ python3 openssl-dev \
+  && npm install pm2 pnpm@7 prisma -g \
   && pnpm install --prod --frozen-lockfile \
   && npm cache clean --force \
   && apk del .build-deps
