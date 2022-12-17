@@ -9,13 +9,10 @@ ENV IS_DOCKER=true
 ARG BINARY_TARGETS="[\"linux-musl\"]"
 ARG USE_CHINA_MIRROR=0
 
-RUN if [ "$USE_CHINA_MIRROR" = 1 ]; then \
-  sed -i 's/http:\/\/.*\.debian.org/http:\/\/mirrors.cloud.tencent.com/g' /etc/apt/sources.list \
-  && npm config set registry https://mirrors.cloud.tencent.com/npm/ \
-  && npm config set PRISMA_BINARIES_MIRROR https://r.cnpmjs.org/-/binary/prisma; \
-  fi;\
+RUN 
   apt-get -y update \
-  && apt-get install -y git python3 apt-transport-https ca-certificates build-essential \
+  && apt-get install -y git python3 apt-transport-https ca-certificates build-essential openssl
+ \
   && ln -s /usr/bin/python3 /usr/bin/python \
   && openssl version -a \
   && npm install pnpm@6 -g \
