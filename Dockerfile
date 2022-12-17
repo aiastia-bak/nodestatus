@@ -46,7 +46,7 @@ ENV NODE_ENV=production
 ARG USE_CHINA_MIRROR=0
 RUN apt-get -y update \
   && apt-get install -y git make gcc g++ python3 openssl\
-  && npm install pm2 pnpm@7 prisma -g \
+  && npm install pm2 pnpm@6 prisma -g \
   && pnpm install --prod --frozen-lockfile \
   && npm cache clean --force 
 
