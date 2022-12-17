@@ -18,7 +18,7 @@ RUN apt-get -y update \
   && pnpm build
 
 
-FROM node:16-alpine as app
+FROM node:16-bullseye-slim as app
 
 WORKDIR /app
 
@@ -44,11 +44,11 @@ COPY --from=0 /app/web/utils/package.json ./web/utils/
 ENV IS_DOCKER=true
 ENV NODE_ENV=production
 ARG USE_CHINA_MIRROR=0
-RUN apk add --no-cache --virtual .build-deps git make gcc g++ python3 openssl-dev\
+RUN apt-get -y update \
+  && apt-get install -y git make gcc g++ python3 openssl-dev\
   && npm install pm2 pnpm@7 prisma -g \
   && pnpm install --prod --frozen-lockfile \
-  && npm cache clean --force \
-  && apk del .build-deps
+  && npm cache clean --force 
 
 EXPOSE 35601
 
