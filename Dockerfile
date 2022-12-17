@@ -44,7 +44,7 @@ COPY --from=0 /app/web/utils/package.json ./web/utils/
 ENV IS_DOCKER=true
 ENV NODE_ENV=production
 ARG USE_CHINA_MIRROR=0
-RUN apk add --no-cache --virtual .build-deps git make gcc g++ python3 openssl1.1-compat \
+RUN apk add --no-cache --virtual .build-deps git make gcc g++ python3 openssl \
   && npm install pm2 pnpm@6 prisma -g \
   && pnpm install --prod --frozen-lockfile \
   && npm cache clean --force \
