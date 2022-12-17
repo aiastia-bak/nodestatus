@@ -17,6 +17,7 @@ RUN if [ "$USE_CHINA_MIRROR" = 1 ]; then \
   apt-get -y update \
   && apt-get install -y git python3 apt-transport-https ca-certificates build-essential \
   && ln -s /usr/bin/python3 /usr/bin/python \
+  && openssl version -a \
   && npm install pnpm@6 -g \
   && pnpm install --unsafe-perm \
   && pnpm build
