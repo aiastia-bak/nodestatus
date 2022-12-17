@@ -10,7 +10,7 @@ ARG BINARY_TARGETS="[\"linux-musl\"]"
 ARG USE_CHINA_MIRROR=0
 
 RUN apt-get -y update \
-  && apt-get install -y git python3 apt-transport-https ca-certificates build-essential openssl openssl-dev libc6 \
+  && apt-get install -y git python3 apt-transport-https ca-certificates build-essential openssl \
   && ln -s /usr/bin/python3 /usr/bin/python \
   && openssl version -a \
   && npm install pnpm@7 -g \
