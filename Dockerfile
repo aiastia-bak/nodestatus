@@ -13,7 +13,7 @@ RUN apt-get -y update \
   && apt-get install -y git python3 apt-transport-https ca-certificates build-essential openssl \
   && ln -s /usr/bin/python3 /usr/bin/python \
   && openssl version -a \
-  && npm install pnpm@6 -g \
+  && npm install pnpm@7 -g \
   && pnpm install --unsafe-perm \
   && pnpm build
 
