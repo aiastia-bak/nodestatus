@@ -1,4 +1,4 @@
-FROM node:16-slim as builder
+FROM node:16-bullseye-slim as builder
 
 LABEL maintainer="Kagurazaka Mizuki"
 
@@ -10,7 +10,7 @@ ARG BINARY_TARGETS="[\"linux-musl\"]"
 ARG USE_CHINA_MIRROR=0
 
 RUN apt-get -y update \
-  && apt-get install -y git python3 apt-transport-https ca-certificates build-essential openssl \
+  && apt-get install -y git python3 apt-transport-https ca-certificates build-essential openssl openssl-dev libc6 \
   && ln -s /usr/bin/python3 /usr/bin/python \
   && openssl version -a \
   && npm install pnpm@7 -g \
@@ -44,12 +44,7 @@ COPY --from=0 /app/web/utils/package.json ./web/utils/
 ENV IS_DOCKER=true
 ENV NODE_ENV=production
 ARG USE_CHINA_MIRROR=0
-RUN if [ "$USE_CHINA_MIRROR" = 1 ]; then \
-  sed -i 's/dl-cdn.alpinelinux.org/mirrors.cloud.tencent.com/g' /etc/apk/repositories \
-  && npm config set registry https://mirrors.cloud.tencent.com/npm/ \
-  && npm config set PRISMA_BINARIES_MIRROR https://r.cnpmjs.org/-/binary/prisma; \
-  fi;\
-  apk add --no-cache --virtual .build-deps git make gcc g++ python3 \
+RUN apk add --no-cache --virtual .build-deps git make gcc g++ python3 openssl1.1-compat \
   && npm install pm2 pnpm@6 prisma -g \
   && pnpm install --prod --frozen-lockfile \
   && npm cache clean --force \
